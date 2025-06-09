@@ -1,0 +1,33 @@
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                              LTN-DAN Architecture                               │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────┐    HTTP/WebSocket    ┌─────────────────┐
+│   Client        │ ◄──────────────────► │   Server        │
+│   Machine       │                      │   Machine       │
+│                 │                      │                 │
+│ ┌─────────────┐ │                      │ ┌─────────────┐ │
+│ │   Web UI    │ │                      │ │   Whisper   │ │
+│ │  (Port 3000)│ │                      │ │   STT       │ │
+│ └─────────────┘ │                      │ └─────────────┘ │
+│                 │                      │                 │
+│ ┌─────────────┐ │                      │ ┌─────────────┐ │
+│ │ Socket.IO   │ │                      │ │   Ollama    │ │
+│ │  Client     │ │                      │ │   AI        │ │
+│ └─────────────┘ │                      │ └─────────────┘ │
+│                 │                      │                 │
+│ ┌─────────────┐ │                      │ ┌─────────────┐ │
+│ │ Audio       │ │                      │ │ Audio       │ │
+│ │ Capture     │ │                      │ │ Processing  │ │
+│ └─────────────┘ │                      │ └─────────────┘ │
+└─────────────────┘                      └─────────────────┘
+
+Data Flow:
+1. User speaks → Audio captured on Client
+2. Audio sent to Server → Whisper transcribes
+3. Text sent to Ollama → AI generates response
+4. Response streamed back to Client → Displayed in UI
+
+Ports:
+- Client: 3000 (Web UI)
+- Server: 5000 (Speech API), 11434 (Ollama) 

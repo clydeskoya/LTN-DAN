@@ -1,0 +1,52 @@
+FROM python:3.10-slim as builder
+
+WORKDIR /app
+
+# Copy requirements and install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Final stage - only copy what's needed
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Install only runtime system dependencies
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/* && \
+    pip install --no-cache-dir --upgrade pip
+
+# Copy only the necessary installed packages from builder
+COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
+
+# Copy the application code
+COPY app.py .
+COPY config.py .
+
+# Create model cache directory
+RUN mkdir -p /app/model_cache
+
+# Set environment variables to prevent unnecessary downloads
+ENV TRANSFORMERS_CACHE=/app/model_cache
+ENV HF_HOME=/app/model_cache
+
+# Download only the distil-large-v2 model and clean up cache
+RUN python -c "from faster_whisper import WhisperModel; WhisperModel('distil-large-v2', device='cuda', compute_type='float16')" && \
+    # Find and remove all other whisper models
+    find /root/.cache/huggingface -type d -name "whisper-*" | grep -v "distil-large-v2" | xargs rm -rf || true && \
+    find /root/.cache/huggingface -type d -name "*whisper*" | grep -v "distil-large-v2" | xargs rm -rf || true && \
+    # Clear other unnecessary files from cache
+    rm -rf /root/.cache/pip && \
+    # Keep only model files, remove checkpoints, etc.
+    find /root/.cache/huggingface -name "*.bin" -not -path "*distil-large-v2*" -delete || true && \
+    find /root/.cache/huggingface -name "*.pt" -not -path "*distil-large-v2*" -delete || true && \
+    # Remove any other unnecessary large files
+    find /root/.cache -type f -size +10M -not -path "*distil-large-v2*" -delete || true
+
+# Expose the port the app runs on
+EXPOSE 5000
+
+# Command to run the application
+CMD ["python", "app.py"] 

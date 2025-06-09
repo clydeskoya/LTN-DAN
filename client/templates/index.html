@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LTN DAN</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Tangerine:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="monitor-frame">
+        <div class="monitor-controls">
+            <div class="control-group">
+                <div class="power-button"></div>
+                <div class="control-label">POWER</div>
+            </div>
+            <div class="control-group">
+                <div class="control-knob" data-control="contrast"></div>
+                <div class="control-label">CONTRAST</div>
+            </div>
+            <div class="control-group">
+                <div class="control-knob" data-control="brightness"></div>
+                <div class="control-label">BRIGHTNESS</div>
+            </div>
+            <div class="control-group">
+                <div class="control-knob" data-control="vhold"></div>
+                <div class="control-label">V-HOLD</div>
+            </div>
+            <div class="control-group">
+                <button id="themeToggle" class="theme-switch"></button>
+                <div class="control-label">THEME</div>
+            </div>
+        </div>
+ 
+        <div class="screen">
+            <div class="container">
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div class="title-container">
+                            <h1>LTN-DAN</h1>
+                            <h2 class="subtitle">Layered Transformative Neural-Dynamic Audio Network</h2>
+                        </div>
+                        <div class="controls">
+                            <button id="loadHistory" class="retro-button">Load History</button>
+                            <button id="clearHistory" class="retro-button">Clear History</button>
+                        </div>
+                    </div>
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- Messages will be inserted here -->
+                    </div>
+                    <div class="chat-input-container">
+                        <textarea id="messageInput" class="retro-input" placeholder="Type your message..."></textarea>
+                        <div class="button-group">
+                            <button id="audioButton" class="retro-button">
+                                <i class="fas fa-microphone"></i>
+                            </button>
+                            <button id="sendButton" class="retro-button">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="monitor-panel">
+            <div class="panel-brand">LTNTRON</div>
+        </div>
+        <div class="frame-logo">LTNTRON</div>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/monitor-controls.js') }}"></script>
+</body>
+</html> 
