@@ -448,12 +448,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-| Technology | Purpose | Link |
-|------------|---------|------|
-| [OpenAI Whisper](https://github.com/openai/whisper) | Speech-to-text capabilities | 🔗 |
-| [Ollama](https://ollama.ai/) | Local AI model inference | 🔗 |
-| [Flask](https://flask.palletsprojects.com/) | Web framework | 🔗 |
-| [Socket.IO](https://socket.io/) | Real-time communication | 🔗 |
+| Technology | Purpose |
+|------------|---------|
+| [OpenAI Whisper](https://github.com/openai/whisper) | Speech-to-text capabilities | 
+| [Ollama](https://ollama.ai/) | Local AI model inference |
+| [Flask](https://flask.palletsprojects.com/) | Web framework |
+| [Socket.IO](https://socket.io/) | Real-time communication |
 
 </div>
 
